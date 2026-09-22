@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 答题控制台</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">ADB / DEEPSEEK AUTOMATION</p>
+        <h1>AI 答题控制台</h1>
+        <p class="subtitle">读取手机屏幕，理解题目并执行可控的模拟点击。</p>
+      </div>
+      <div id="statusPill" class="status-pill idle"><span></span>未运行</div>
+    </header>
+
+    <section class="workspace">
+      <form id="configForm" class="panel settings">
+        <div class="panel-heading"><span>01</span><h2>任务参数</h2></div>
+        <div class="field-grid">
+          <label>单题答题时间（秒）<input name="answer_time" type="number" min="1" step="0.1" value="15"></label>
+          <label>题目间隔最短时间（秒）<input name="interval_min_time" type="number" min="0" step="0.1" value="0.2"></label>
+          <label>题目间隔最长时间（秒）<input name="interval_max_time" type="number" min="0" step="0.1" value="0.6"></label>
+          <label>时间误差范围（秒）<input name="error_time" type="number" min="0" step="0.1" value="0.8"></label>
+          <label>点击误差距离（像素）<input name="click_error_distance" type="number" min="0" step="1" value="2"></label>
+          <label>页面加载上限（秒）<input name="page_load_timeout" type="number" min="1" step="0.5" value="8"></label>
+          <label>截图轮询间隔（秒）<input name="screen_poll_interval" type="number" min="0.1" step="0.05" value="0.15"></label>
+        </div>
+        <label class="toggle-row"><input name="notify_on_submit" type="checkbox" checked><span>到达提交页面时发送 Windows 通知（不会自动提交）</span></label>
+        <label class="toggle-row"><input name="send_image_to_model" type="checkbox"><span>将手机截图直接发送给视觉模型（需使用支持图片的模型）</span></label>
+        <div class="panel-heading second"><span>02</span><h2>连接与模型</h2></div>
+        <label>ADB 路径<input name="adb_path" placeholder="留空使用 PATH，或填写 tools/adb.exe"></label>
+        <label>设备序列号（可选）<input name="device_serial" placeholder="多台设备时填写 adb devices 中的序列号"></label>
+        <label>DeepSeek API Key<input name="api_key" type="password" placeholder="sk-..." autocomplete="off"></label>
+        <div class="inline-fields">
+          <label>模型<input name="model" value="deepseek-flash"></label>
+          <label>API 地址<input name="api_base" value="https://api.deepseek.com"></label>
+        </div>
+        <div class="actions">
+          <button id="startButton" class="primary" type="submit">开始答题</button>
+          <button id="saveButton" class="secondary" type="button">保存当前参数</button>
+          <button id="stopButton" class="secondary" type="button">停止</button>
+        </div>
+        <p class="save-status" id="saveStatus" role="status" aria-live="polite"></p>
+        <p class="hint">保存参数会将当前配置（包括 API Key）写入本地 config.json。多选题会逐项点击；图片模式需确认当前模型支持视觉输入。</p>
+      </form>
+
+      <aside class="panel monitor">
+        <div class="panel-heading"><span>LIVE</span><h2>运行监视</h2></div>
+        <div class="message" id="message">等待开始</div>
+        <div class="screenshot-frame"><img id="screenImage" alt="当前手机屏幕截图" hidden><div id="screenPlaceholder">暂无手机截图</div></div>
+        <div class="readout"><p>最近识别文本</p><pre id="screenText">暂无</pre></div>
+        <div class="readout"><p>最近模型结果</p><pre id="lastAnswer">暂无</pre></div>
+      </aside>
+    </section>
+    <footer>本地服务 · 127.0.0.1:5050
+      <br>Power by qincnd
+    </footer>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>
