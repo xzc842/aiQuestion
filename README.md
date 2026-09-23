@@ -10,7 +10,11 @@
 
 ## 如何下载
 
-`git clone <该项目git地址> `
+```
+git clone https:/github.com/qincnd/aiQuestion.git
+pip install -r requirements.txt
+python main.py
+```
 或者在releases处下载压缩包
 
 ## Windows 启动
