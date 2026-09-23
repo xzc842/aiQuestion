@@ -1,0 +1,16 @@
+{
+  "answer_time": 5.0,
+  "interval_min_time": 0.2,
+  "interval_max_time": 0.6,
+  "error_time": 1.2,
+  "click_error_distance": 2,
+  "page_load_timeout": 8.0,
+  "screen_poll_interval": 0.15,
+  "notify_on_submit": true,
+  "send_image_to_model": true,
+  "adb_path": "",
+  "device_serial": "",
+  "api_key": "",
+  "model": "deepseek-flash",
+  "api_base": "https://api.deepseek.com"
+}
